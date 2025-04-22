@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="old.css">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Poppins&amp;display=swap'>
+
+    <script>
+
+        var currentMusic = null;
+                var musicIndex = 0;
+                var playlist = [
+                    {name: "Tum Hi Ho", file: 'tum hi ho.mp3', image: 'tum hi ho.jpeg'},
+                    {name:"Phir bhi tumko chahunga", file:'phir bhi.mp3', image:'phir bhi.jpeg'},
+                    {name:"Har kisi ko", file:'har kisi ko.mp3', image:'har kisi ko.jpeg'},
+                    {name:"Har kisi ko", file:'295 music.mp3', image:'295.jpeg'},
+                    {name:"Har kisi ko", file:'295 music.mp3', image:'295.jpeg'},
+                    {name:"Har kisi ko", file:'295 music.mp3', image:'295.jpeg'},
+                    {name:"Har kisi ko", file:'295 music.mp3', image:'295.jpeg'},
+                    {name:"Har kisi ko", file:'295 music.mp3', image:'295.jpeg'},
+                    {name:"Har kisi ko", file:'295 music.mp3', image:'295.jpeg'},
+                    {name:"Har kisi ko", file:'295 music.mp3', image:'295.jpeg'},
+                    {name:"Har kisi ko", file:'295 music.mp3', image:'295.jpeg'},
+                    {name:"Har kisi ko", file:'295 music.mp3', image:'295.jpeg'},
+                    {name:"Har kisi ko", file:'295 music.mp3', image:'295.jpeg'},
+                ];
+        
+                function playMusic(index) {
+                    if (currentMusic !== null) {
+                        currentMusic.pause();
+                    }
+                    currentMusic = new Audio(playlist[index].file);
+                    currentMusic.play();
+                    updateSongInfo(index);
+                    musicIndex = index;
+                    updatePlayPauseButton(true);
+                
+                    currentMusic.addEventListener('timeupdate', updateProgressBar);
+                    currentMusic.addEventListener('loadedmetadata', updateDuration);
+                }
+                
+                function updateSongInfo(index) {
+                    document.querySelector('.playtrack-img img').src = playlist[index].image;
+                    document.querySelector('.playtrack-name').textContent = playlist[index].name;
+                }
+                
+                function playpauseTrack() {
+                    if (currentMusic.paused) {
+                        currentMusic.play();
+                        updatePlayPauseButton(true);
+                    } else {
+                        currentMusic.pause();
+                        updatePlayPauseButton(false);
+                    }
+                }
+                
+                function updatePlayPauseButton(isPlaying) {
+                    const playPauseIcon = document.querySelector('.playpause-track i');
+                    if (isPlaying) {
+                        playPauseIcon.classList.remove('fa-play-circle');
+                        playPauseIcon.classList.add('fa-pause-circle');
+                    } else {
+                        playPauseIcon.classList.remove('fa-pause-circle');
+                        playPauseIcon.classList.add('fa-play-circle');
+                    }
+                }
+                
+                function nextTrack() {
+                    musicIndex = (musicIndex + 1) % playlist.length;
+                    playMusic(musicIndex);
+                }
+                
+                function prevTrack() {
+                    musicIndex = (musicIndex - 1 + playlist.length) % playlist.length;
+                    playMusic(musicIndex);
+                }
+                
+                function seekTo() {
+                    var seekSlider = document.querySelector('.seek_slider');
+                    var currentTime = currentMusic.duration * (seekSlider.value / 100);
+                    currentMusic.currentTime = currentTime;
+                }
+                
+                function setVolume() {
+                    var volumeSlider = document.querySelector('.volume_slider');
+                    currentMusic.volume = volumeSlider.value / 100;
+                }
+        
+                function updateProgressBar() {
+                    var progress = (currentMusic.currentTime / currentMusic.duration) * 100;
+                    var seekSlider = document.querySelector('.seek_slider');
+                    seekSlider.value = progress;
+                
+                    var currentTimeElement = document.querySelector('.current-time');
+                    var duration = formatTime(currentMusic.currentTime);
+                    currentTimeElement.textContent = duration;
+                
+                    var totalDurationElement = document.querySelector('.total-duration');
+                    var totalDuration = formatTime(currentMusic.duration);
+                    totalDurationElement.textContent = totalDuration;
+                }
+                
+                function formatTime(seconds) {
+                    var minutes = Math.floor(seconds / 60);
+                    var remainingSeconds = Math.floor(seconds % 60);
+                    return minutes.toString().padStart(2, '0') + ':' + remainingSeconds.toString().padStart(2, '0');
+                }
+        
+                function updateDuration() {
+                    var totalDurationElement = document.querySelector('.total-duration');
+                    var totalDuration = formatTime(currentMusic.duration);
+                    totalDurationElement.textContent = totalDuration;
+                }
+        
+                function addToPlaylist(songIndex) {
+                    var song = playlist[songIndex];
+                    var currentPlaylist = JSON.parse(localStorage.getItem('playlist')) || [];
+                    if (!currentPlaylist.some(item => item.file === song.file)) {
+                        currentPlaylist.push(song);
+                        localStorage.setItem('playlist', JSON.stringify(currentPlaylist));
+                        alert(song.name + " has been added to your playlist.");
+                    } else {
+                        alert(song.name + " is already in your playlist.");
+                    }
+                }
+        
+                displaySongs();
+        
+                function displaySongs() {
+                    var songListContainer = document.getElementById('song-list');
+                    songListContainer.innerHTML = '';
+                    playlist.forEach(function(song, index) {
+                        var songDiv = document.createElement('div');
+                        songDiv.classList.add('song-item');
+                        
+                        songDiv.innerHTML = `
+                            <img src="${song.image}" alt="${song.name}" style="width: 50px; height: 50px;">
+                            <p>${song.name}</p>
+                            <p>Duration: ${formatTime(song.duration)}</p>
+                            <div class="add-playlist">
+                                <button onclick="addToPlaylist(${index})">
+                                    <i class="fa-solid fa-plus fa-xl" style="color: #ffffff;"></i>
+                                </button>
+                                <span class="tooltiptext">Add to playlist</span>
+                            </div>
+                        `;
+                        songListContainer.appendChild(songDiv);
+                    });
+                }
+                    </script>
+</head>
+<body>
+    
+    <header>
+        <div class="nav-bar">
+            <div class="dir">
+            <div class="Melodii" style="background-image: url('melodii.png');"></div>
+            <a href="Music.html"><div class="home"><i class="fa-solid fa-house fa-2xl" style="color: #ffffff;"></i></div></a>
+            <div class="search">
+            <div class="magnifying"><i class="fa-solid fa-magnifying-glass fa-xl" style="color: #dadada;"></i></div>
+            <input class="Placeholder" type="text" placeholder="What do you want to play?">
+            <div class="browse"><i class="fa-solid fa-window-maximize fa-2xl" style="color: #ffffff;"></i></div></div>
+        </div>
+          <div class="nav-bar2">
+            <a href="premium.html"><div class="explore">
+                <div class="box3"></div>
+                Explore premium
+            </div></a>
+            
+            <div class="install">
+                <i class="fa-sharp fa-regular fa-circle-down fa-xl" style="color: #ffffff;"></i>
+                <div class="app"><p>Install app</p></div></div>
+                    <div class="bell">
+            <i class="fa-regular fa-bell fa-xl" style="color: #ffffff;"></i>
+        </div>
+            <a href="Login.html"><div class="profile">
+                Log in
+            </div></a>
+            <a href="register.html">
+            <div class="sign-up">
+                Sign up
+            </div></a>
+        </div>
+          </div>
+        </div>
+        </header>
+<div class="container">
+<!-- <div class="music"> -->
+    <!-- <div class="music-head"><h1>Music</h1></div> -->
+    <!-- <div class="img-edit">
+    <div class="img" style="background-image: url('trend.jpeg');"></div>
+</div>
+</div> -->
+        <div class="type">
+            <div class="trend"><a href="trend.html" >Trending now</a></div>
+            <div class="trend"><a href="old.html" class="now">old songs</a></div>
+            <div class="trend"><a href="new.html" >new songs</a></div>
+            <div class="trend-dropdown">
+                <div class="dropdown">Moods & Genre <i class="fa-sharp fa-solid fa-angle-down" style="color: #ffffff;"></i></div>
+                
+                    <div class="dropdown-menu">
+                    <a href="party.html">Party songs</a>
+                    
+                    <a href="bollywood.html">Bollywood songs</a>
+                    
+                    <a href="punjabi.html">punjabi</a>
+                    <a href="90s.html">90's Hits</a>
+                    
+                    <a href="bhakti.html">Bhakti</a>
+                    </div>
+            </div>
+            
+        </div>
+        
+    </div>
+    <div class="img" style="background-image: url('old-song.jpeg');"></div>
+    <div class="trending-music">
+        <div class="trend-head">
+            <h1>Old songs</h1>
+        </div>
+        <a href="#"><button class="play-song">Play songs</button></a>
+        <div class="list">
+           <div class="list-head1">#Music</div>
+              <div class="list-head2">
+                <div class="art">Artists</div>
+                <div class="timing">Duration</div>
+              </div>
+        </div>   
+        <div class="song-trend-list">
+            <div class="song-img"><div class="play-hover"><a href="#"><img src="icons.png"></a></div></div>
+            <div class="song-name">Bheegi Bheegi Raaton Mein</div>
+            <div class="artist-name">Kishore Kumar,Lata Mangeshkar</div>
+            <div class="duration">3:54</div>
+            <div class="add-playlist"><button onclick="addToPlaylist(0)"><i class="fa-solid fa-plus fa-xl" style="color: #ffffff;"></i></button><span class="tooltiptext">Add to playlist</span></div>
+        </div>
+
+        
+
+        <div class="song-trend-list">
+            <div class="song-img1"><div class="play-hover"><a href="#"><img src="icons.png"></a></div></div>
+            <div class="song-name1">Aap Ki Aaankon Mein Kuch</div>
+            <div class="artist-name1">Kishore Kumar,Lata Mangeshkar</div>
+            <div class="duration1">4:09</div>
+            <div class="add-playlist"><button onclick="addToPlaylist(1)"><i class="fa-solid fa-plus fa-xl" style="color: #ffffff;"></i></button><span class="tooltiptext">Add to playlist</span></div>
+        </div>
+
+        <div class="song-trend-list">
+            <div class="song-img2"><div class="play-hover"><a href="#"><img src="icons.png"></a></div></div>
+            <div class="song-name2">Hamen Tumse Pyar Kitna</div>
+            <div class="artist-name2">Kishore Kumar</div>
+            <div class="duration2">4:02</div>
+            <div class="add-playlist"><button onclick="addToPlaylist(2)"><i class="fa-solid fa-plus fa-xl" style="color: #ffffff;"></i></button><span class="tooltiptext">Add to playlist</span></div>
+        </div>
+
+        <div class="song-trend-list">
+            <div class="song-img3"><div class="play-hover"><a href="#"><img src="icons.png"></a></div></div>
+            <div class="song-name3">Tere Bina Zindagi</div>
+            <div class="artist-name3">Kishore Kumar,Lata Mangeshkar</div>
+            <div class="duration3">5:54</div>
+            <div class="add-playlist"><button onclick="addToPlaylist(3)"><i class="fa-solid fa-plus fa-xl" style="color: #ffffff;"></i></button><span class="tooltiptext">Add to playlist</span></div>
+        </div>
+
+        <div class="song-trend-list">
+            <div class="song-img4"><div class="play-hover"><a href="#"><img src="icons.png"></a></div></div>
+            <div class="song-name4">Lag Ja Gale</div>
+            <div class="artist-name4">Lata Mangeshkar</div>
+            <div class="duration4">4:18</div>
+            <div class="add-playlist"><button onclick="addToPlaylist(4)"><i class="fa-solid fa-plus fa-xl" style="color: #ffffff;"></i></button><span class="tooltiptext">Add to playlist</span></div>
+        </div>
+
+        <div class="song-trend-list">
+            <div class="song-img5"><div class="play-hover"><a href="#"><img src="icons.png"></a></div></div>
+            <div class="song-name5">Mere Rang Mein</div>
+            <div class="artist-name5">S.P. Balasubrahmanyam</div>
+            <div class="duration5">6:54</div>
+            <div class="add-playlist"><button onclick="addToPlaylist(5)"><i class="fa-solid fa-plus fa-xl" style="color: #ffffff;"></i></button><span class="tooltiptext">Add to playlist</span></div>
+        </div>
+
+        <div class="song-trend-list">
+            <div class="song-img6"><div class="play-hover"><a href="#"><img src="icons.png"></a></div></div>
+            <div class="song-name6">Tere Jaisa Yaar Kahan</div>
+            <div class="artist-name6">Kishore Kumar</div>
+            <div class="duration6">4:38</div>
+            <div class="add-playlist"><button onclick="addToPlaylist(6  )"><i class="fa-solid fa-plus fa-xl" style="color: #ffffff;"></i></button><span class="tooltiptext">Add to playlist</span></div>
+        </div>
+
+        <div class="song-trend-list">
+            <div class="song-img7"><div class="play-hover"><a href="#"><img src="icons.png"></a></div></div>
+            <div class="song-name7">Likhe Jo Khat Tujhe</div>
+            <div class="artist-name7">Mohammed Rafi</div>
+            <div class="duration7">4:34</div>
+            <div class="add-playlist"><button><i class="fa-solid fa-plus fa-xl" style="color: #ffffff;"></i></button><span class="tooltiptext">Add to playlist</span></div>
+        </div>
+
+        <div class="song-trend-list">
+            <div class="song-img8"><div class="play-hover"><a href="#"><img src="icons.png"></a></div></div>
+            <div class="song-name8">Kuch Toh Log</div>
+            <div class="artist-name8">Kumar Sanu</div>
+            <div class="duration8">4:35</div>
+            <div class="add-playlist"><button><i class="fa-solid fa-plus fa-xl" style="color: #ffffff;"></i></button><span class="tooltiptext">Add to playlist</span></div>
+        </div>
+
+        <div class="song-trend-list">
+            <div class="song-img9"><div class="play-hover"><a href="#"><img src="icons.png"></a></div></div>
+            <div class="song-name9">Aaj Rapat Jaye</div>
+            <div class="artist-name9">Asha Bhosle,Kishore Kumar</div>
+            <div class="duration9">6:49</div>
+            <div class="add-playlist"><button><i class="fa-solid fa-plus fa-xl" style="color: #ffffff;"></i></button><span class="tooltiptext">Add to playlist</span></div>
+        </div>
+
+
+    </div>
+
+    <div class="song-bottom">
+        <div class="playtrack-img"><img src="tum.jpeg"><p class="playtrack-name">Nature</p></div>
+        <div class="buttons">
+    
+            <div class="prev-track" onclick="prevTrack()">
+                <i class="fa fa-step-backward fa-1x" style="color: #ffffff;"></i>
+            </div>
+            <div class="playpause-track" onclick="playpauseTrack()">
+                <i class="fa fa-play-circle fa-2x" style="color: #ffffff;"></i>
+            </div>
+            <div class="next-track" onclick="nextTrack()">
+                <i class="fa fa-step-forward fa-1x" style="color: #ffffff;"></i>
+            </div>
+            </div>
+        
+            <!-- Define the section for displaying the seek slider-->
+            <div class="slider_container">
+            <div class="current-time">00:00</div>
+            <input type="range" min="1" max="100"
+                value="0" class="seek_slider" onchange="seekTo()">
+            <div class="total-duration">00:00</div>
+            </div>
+        
+            <!-- Define the section for displaying the volume slider-->
+            <div class="slider_container">
+            <i class="fa fa-volume-down" style="color: #ffffff;"></i>
+            <input type="range" min="1" max="100"
+                value="99" class="volume_slider" onchange="setVolume()">
+            <i class="fa fa-volume-up" style="color: #ffffff;"></i>
+            </div>
+        </div>
+        
+    </div>
+    
+</body>
+</html>
