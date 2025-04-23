@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="party.css">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Poppins&amp;display=swap'>
+
+     <script>
+        var currentMusic = null;
+    var musicIndex = 0;
+    var playlist = [
+        { name: 'Jo Tum Mere Ho', file: 'jo tum .mp3', image: 'tum.jpeg' },
+        { name: 'Millionaire', file: 'millionaire.mp3', image: 'glory.jpeg' },
+        { name: 'What Jhumka', file: 'jhumka.mp3', image: 'jhumka.jpeg' },
+        { name: 'Aaj Ki Raat', file: 'aaj ki raat.mp3', image: 'aaj ki raat.jpeg' },
+        { name: 'Tauba Tauba', file: 'path/to/song5.mp3', image: 'path/to/image5.jpg' },
+        { name: 'Jaanam', file: 'path/to/song6.mp3', image: 'path/to/image6.jpg' },
+        { name: 'Mere Mehboob', file: 'path/to/song7.mp3', image: 'path/to/image7.jpg' },
+        { name: 'Aayi Nai', file: 'path/to/song8.mp3', image: 'path/to/image8.jpg' }
+    ];
+    
+    // Play the selected song
+    function playMusic(index) {
+        if (currentMusic !== null) {
+            currentMusic.pause();
+        }
+        currentMusic = new Audio(playlist[index].file);
+        currentMusic.play();
+        updateSongInfo(index);
+        musicIndex = index;
+        updatePlayPauseButton(true);
+    
+        // Update the progress bar every second
+        currentMusic.addEventListener('timeupdate', updateProgressBar);
+        currentMusic.addEventListener('loadedmetadata', updateDuration);
+    }
+    
+    // Update the song information (name and image)
+    function updateSongInfo(index) {
+        document.querySelector('.playtrack-img img').src = playlist[index].image;
+        document.querySelector('.playtrack-name').textContent = playlist[index].name;
+    }
+    
+    // Toggle play and pause
+    function playpauseTrack() {
+        if (currentMusic.paused) {
+            currentMusic.play();
+            updatePlayPauseButton(true);
+        } else {
+            currentMusic.pause();
+            updatePlayPauseButton(false);
+        }
+    }
+    
+    // Update the play/pause button icon
+    function updatePlayPauseButton(isPlaying) {
+        const playPauseIcon = document.querySelector('.playpause-track i');
+        if (isPlaying) {
+            playPauseIcon.classList.remove('fa-play-circle');
+            playPauseIcon.classList.add('fa-pause-circle');
+        } else {
+            playPauseIcon.classList.remove('fa-pause-circle');
+            playPauseIcon.classList.add('fa-play-circle');
+        }
+    }
+    
+    // Skip to the next track in the playlist
+    function nextTrack() {
+        musicIndex = (musicIndex + 1) % playlist.length;
+        playMusic(musicIndex);
+    }
+    
+    // Go to the previous track in the playlist
+    function prevTrack() {
+        musicIndex = (musicIndex - 1 + playlist.length) % playlist.length;
+        playMusic(musicIndex);
+    }
+    
+    // Seek to a specific time in the song (from the seek slider)
+    function seekTo() {
+        var seekSlider = document.querySelector('.seek_slider');
+        var currentTime = currentMusic.duration * (seekSlider.value / 100);
+        currentMusic.currentTime = currentTime;
+    }
+    
+    // Set the volume based on the volume slider
+    function setVolume() {
+        var volumeSlider = document.querySelector('.volume_slider');
+        currentMusic.volume = volumeSlider.value / 100;
+    }
+    
+    // Update the progress bar as the song plays
+    function updateProgressBar() {
+        var progress = (currentMusic.currentTime / currentMusic.duration) * 100;
+        var seekSlider = document.querySelector('.seek_slider');
+        seekSlider.value = progress;
+    
+        // Update the current time display
+        var currentTimeElement = document.querySelector('.current-time');
+        var currentTime = formatTime(currentMusic.currentTime);
+        currentTimeElement.textContent = currentTime;
+    
+        // Update the total duration display
+        var totalDurationElement = document.querySelector('.total-duration');
+        var totalDuration = formatTime(currentMusic.duration);
+        totalDurationElement.textContent = totalDuration;
+    }
+    
+    // Format the time in MM:SS format
+    function formatTime(seconds) {
+        var minutes = Math.floor(seconds / 60);
+        var remainingSeconds = Math.floor(seconds % 60);
+        return minutes.toString().padStart(2, '0') + ':' + remainingSeconds.toString().padStart(2, '0');
+    }
+    
+    // Update the total duration once the metadata is loaded
+    function updateDuration() {
+        var totalDurationElement = document.querySelector('.total-duration');
+        var totalDuration = formatTime(currentMusic.duration);
+        totalDurationElement.textContent = totalDuration;
+    }
+    
+    // Initialize the first song in the playlist
+    window.onload = function() {
+        playMusic(musicIndex); // Play the first song on page load
+    };
+    
+    function playMusic(index) {
+        // Hide the controls initially (if needed)
+        const audioPlayerContainer = document.querySelector('.song-bottom');
+        audioPlayerContainer.style.display = 'block';  // Show controls when music is playing
+    
+        if (currentMusic !== null) {
+            currentMusic.pause(); // Stop the current music if any is playing
+        }
+    
+        currentMusic = new Audio(playlist[index].file); // Set the new track
+        currentMusic.play(); // Start playing the track
+    
+        // Update song info (image and track name)
+        updateSongInfo(index);
+        musicIndex = index;
+    
+        // Update the play/pause button
+        updatePlayPauseButton(true);
+    
+        // Update the progress bar every second
+        currentMusic.addEventListener('timeupdate', updateProgressBar);
+        currentMusic.addEventListener('loadedmetadata', updateDuration);
+    }
+    
+    // Update the song info (name and image)
+    function updateSongInfo(index) {
+        document.querySelector('.playtrack-img img').src = playlist[index].image;
+        document.querySelector('.playtrack-name').textContent = playlist[index].name;
+    }
+    
+    </script>
+    </script>
+</head>
+<body>
+    
+    <header>
+        <div class="nav-bar">
+            <div class="dir">
+            <div class="Melodii" style="background-image: url('melodii.png');"></div>
+            <a href="Music.html"><div class="home"><i class="fa-solid fa-house fa-2xl" style="color: #ffffff;"></i></div></a>
+            <div class="search">
+            <div class="magnifying"><i class="fa-solid fa-magnifying-glass fa-xl" style="color: #dadada;"></i></div>
+            <input class="Placeholder" type="text" placeholder="What do you want to play?">
+            <div class="browse"><i class="fa-solid fa-window-maximize fa-2xl" style="color: #ffffff;"></i></div></div>
+        </div>
+          <div class="nav-bar2">
+            <a href="premium.html"><div class="explore">
+                <div class="box3"></div>
+                Explore premium
+            </div></a>
+            
+            <div class="install">
+                <i class="fa-sharp fa-regular fa-circle-down fa-xl" style="color: #ffffff;"></i>
+                <div class="app"><p>Install app</p></div></div>
+                    <div class="bell">
+            <i class="fa-regular fa-bell fa-xl" style="color: #ffffff;"></i>
+        </div>
+            <a href="Login.html"><div class="profile">
+                Log in
+            </div></a>
+            <a href="register.html">
+            <div class="sign-up">
+                Sign up
+            </div></a>
+        </div>
+          </div>
+        </div>
+        </header>
+<div class="container">
+<!-- <div class="music"> -->
+    <!-- <div class="music-head"><h1>Music</h1></div> -->
+    <!-- <div class="img-edit">
+    <div class="img" style="background-image: url('trend.jpeg');"></div>
+</div>
+</div> -->
+        <div class="type">
+            <div class="trend"><a href="trend.html" >Trending now</a></div>
+            <div class="trend"><a href="old.html" >old songs</a></div>
+            <div class="trend"><a href="new.html" >new songs</a></div>
+            <div class="trend-dropdown">
+                <div class="dropdown">Moods & Genre <i class="fa-sharp fa-solid fa-angle-down" style="color: #ffffff;"></i></div>
+                
+                    <div class="dropdown-menu">
+                    <a href="party.html">Party songs</a>
+                    
+                    <a href="bollywood.html">Bollywood songs</a>
+                    
+                    <a href="punjabi.html">punjabi</a>
+                    <a href="90s.html">90's Hits</a>
+                    
+                    <a href="bhakti.html">Bhakti</a>
+                    </div>
+            </div>
+            
+        </div>
+        
+    </div>
+    <div class="img" style="background-image: url('party.jpeg');"></div>
+    <div class="trending-music">
+        <div class="trend-head">
+            <h1>Party songs</h1>
+        </div>
+        <a href="#"><button class="play-song">Play songs</button></a>
+        <div class="list">
+           <div class="list-head1">#Music</div>
+              <div class="list-head2">
+                <div class="art">Artists</div>
+                <div class="timing">Duration</div>
+              </div>
+        </div>   
+        <div class="song-trend-list">
+            <div class="song-img"><div class="play-hover"><a href="#"><img src="icons.png"  onclick="playMusic()" ></a></div></div>
+           
+            <div class="song-name">Kala Chashma</div>
+            <div class="artist-name">Neha Kakkar,Badshah</div>
+            <div class="duration">3:07</div>
+            <div class="add-playlist"><button><i class="fa-solid fa-plus fa-xl" style="color: #ffffff;"></i></button><span class="tooltiptext">Add to playlist</span></div>
+        </div>
+
+        
+
+        <div class="song-trend-list">
+            <div class="song-img1"><div class="play-hover"><a href="#"><img src="icons.png"></a></div></div>
+            <div class="song-name1">Badtameez Dil</div>
+            <div class="artist-name1">Pritam,Benny Dayal</div>
+            <div class="duration1">4:13</div>
+            <div class="add-playlist"><button><i class="fa-solid fa-plus fa-xl" style="color: #ffffff;"></i></button><span class="tooltiptext">Add to playlist</span></div>
+        </div>
+
+        <div class="song-trend-list">
+            <div class="song-img2"><div class="play-hover"><a href="#"><img src="icons.png"></a></div></div>
+            <div class="song-name2">Laila Mai Laila</div>
+            <div class="artist-name2">Pawni Pandey</div>
+            <div class="duration2">5:06</div>
+            <div class="add-playlist"><button><i class="fa-solid fa-plus fa-xl" style="color: #ffffff;"></i></button><span class="tooltiptext">Add to playlist</span></div>
+        </div>
+
+        <div class="song-trend-list">
+            <div class="song-img3"><div class="play-hover"><a href="#"><img src="icons.png"></a></div></div>
+            <div class="song-name3">Kar Gyi Chull</div>
+            <div class="artist-name3">Badshah,Neha kakkar,<br>Amaal Malik</div>
+            <div class="duration3">3:07</div>
+            <div class="add-playlist"><button><i class="fa-solid fa-plus fa-xl" style="color: #ffffff;"></i></button><span class="tooltiptext">Add to playlist</span></div>
+        </div>
+
+        <div class="song-trend-list">
+            <div class="song-img4"><div class="play-hover"><a href="#"><img src="icons.png"></a></div></div>
+            <div class="song-name4">Aankh Marey</div>
+            <div class="artist-name4">Neha Kakkar,Mika Singh,<br>Kumar Sanu</div>
+            <div class="duration4">3:32</div>
+            <div class="add-playlist"><button><i class="fa-solid fa-plus fa-xl" style="color: #ffffff;"></i></button><span class="tooltiptext">Add to playlist</span></div>
+        </div>
+
+        <div class="song-trend-list">
+            <div class="song-img5"><div class="play-hover"><a href="#"><img src="icons.png"></a></div></div>
+            <div class="song-name5">Abhi toh party shuru hui hai</div>
+            <div class="artist-name5">Badshah,Aastha</div>
+            <div class="duration5">3:00</div>
+            <div class="add-playlist"><button><i class="fa-solid fa-plus fa-xl" style="color: #ffffff;"></i></button><span class="tooltiptext">Add to playlist</span></div>
+        </div>
+
+        <div class="song-trend-list">
+            <div class="song-img6"><div class="play-hover"><a href="#"><img src="icons.png"></a></div></div>
+            <div class="song-name6">Hookah Bar</div>
+            <div class="artist-name6">Vineet singh,Aaman Trikha,<br>Himesh Reshammiya</div>
+            <div class="duration6">4:14</div>
+            <div class="add-playlist"><button><i class="fa-solid fa-plus fa-xl" style="color: #ffffff;"></i></button><span class="tooltiptext">Add to playlist</span></div>
+        </div>
+
+        <div class="song-trend-list">
+            <div class="song-img7"><div class="play-hover"><a href="#"><img src="icons.png"></a></div></div>
+            <div class="song-name7">Bom Diggy Diggy</div>
+            <div class="artist-name7">Jasmin Walia,Zack Knight</div>
+            <div class="duration7">3:58</div>
+            <div class="add-playlist"><button><i class="fa-solid fa-plus fa-xl" style="color: #ffffff;"></i></button><span class="tooltiptext">Add to playlist</span></div>
+        </div>
+
+        <div class="song-trend-list">
+            <div class="song-img8"><div class="play-hover"><a href="#"><img src="icons.png"></a></div></div>
+            <div class="song-name8">Kya Baat Ay</div>
+            <div class="artist-name8">Hardy Sandhu,Jaani</div>
+            <div class="duration8">3:01</div>
+            <div class="add-playlist"><button><i class="fa-solid fa-plus fa-xl" style="color: #ffffff;"></i></button><span class="tooltiptext">Add to playlist</span></div>
+        </div>
+
+        <div class="song-trend-list">
+            <div class="song-img9"><div class="play-hover"><a href="#"><img src="icons.png"></a></div></div>
+            <div class="song-name9">Sunny Sunny</div>
+            <div class="artist-name9">Yo Yo Honey Singh,Neha Kakkar</div>
+            <div class="duration9">4:03</div>
+            <div class="add-playlist"><button><i class="fa-solid fa-plus fa-xl" style="color: #ffffff;"></i></button><span class="tooltiptext">Add to playlist</span></div>
+        </div>
+
+
+    </div>
+
+    <div class="song-bottom">
+        <div class="playtrack-img"><img src="tum.jpeg"><p class="playtrack-name">Nature</p></div>
+        <div class="buttons">
+    
+            <div class="prev-track" onclick="prevTrack()">
+                <i class="fa fa-step-backward fa-1x" style="color: #ffffff;"></i>
+            </div>
+            <div class="playpause-track" onclick="playpauseTrack()">
+                <i class="fa fa-play-circle fa-2x" style="color: #ffffff;"></i>
+            </div>
+            <div class="next-track" onclick="nextTrack()">
+                <i class="fa fa-step-forward fa-1x" style="color: #ffffff;"></i>
+            </div>
+            </div>
+        
+            <!-- Define the section for displaying the seek slider-->
+            <div class="slider_container">
+            <div class="current-time">00:00</div>
+            <input type="range" min="1" max="100"
+                value="0" class="seek_slider" onchange="seekTo()">
+            <div class="total-duration">00:00</div>
+            </div>
+        
+            <!-- Define the section for displaying the volume slider-->
+            <div class="slider_container">
+            <i class="fa fa-volume-down" style="color: #ffffff;"></i>
+            <input type="range" min="1" max="100"
+                value="99" class="volume_slider" onchange="setVolume()">
+            <i class="fa fa-volume-up" style="color: #ffffff;"></i>
+            </div>
+        </div>
+        
+    </div>
+    
+</body>
+</html>  
