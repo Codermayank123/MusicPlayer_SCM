@@ -1,0 +1,909 @@
+*{
+    margin: 0;
+    font-family: "poppins", sans-serif;
+}
+
+body{
+    overflow: hidden;
+    background-color: black;
+}
+
+.left{
+    height: 900px;
+    width: 250px;
+    background-image: linear-gradient(rgb(39, 37, 37),grey);
+    margin-left: 20px;
+    margin-top: 20px;
+    border-radius: 20px;
+    color: white;
+    font-size: 1.25rem;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: 400;
+    overflow-y: scroll;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+
+.left h1{
+   display: flex;
+   justify-content: center;
+   padding-top: 20px;
+}
+
+
+.artist-line1{
+    display: flex;
+    justify-content: space-evenly;
+   
+}
+
+.artist1:hover{
+    transform: scale(1.15);
+    
+}
+
+.artist2:hover{
+    transform: scale(1.15);
+}
+
+.artist3:hover{
+    transform: scale(1.15);
+}
+
+.artist4:hover{
+    transform: scale(1.15);
+}
+
+.artist5:hover{
+    transform: scale(1.15);
+}
+
+.artist6:hover{
+    transform: scale(1.15);
+}
+
+.artist7:hover{
+    transform: scale(1.15);
+}
+
+.artist8:hover{
+    transform: scale(1.15);
+}
+
+.artist1 img{
+    height: 100px;
+    width: 100px;
+    border-radius: 100%;
+    margin-top: 50px;
+    margin-left: 15px;
+}
+
+.artist2 img{
+    height: 100px;
+    width: 100px;
+    border-radius: 100%;
+    margin-top: 50px;
+    margin-right: 15px;
+}
+
+.artist3 img{
+    height: 100px;
+    width: 100px;
+    border-radius: 100%;
+    margin-top: 40px;
+    margin-left: 15px;
+}
+
+.artist4 img{
+    height: 100px;
+    width: 100px;
+    border-radius: 100%;
+    margin-top: 40px;
+    margin-left: 5px;
+}
+
+.artist5 img{
+    height: 100px;
+    width: 100px;
+    border-radius: 100%;
+    margin-top: 40px;
+    margin-left: 15px;
+}
+
+.artist6 img{
+    height: 100px;
+    width: 100px;
+    border-radius: 100%;
+    margin-top: 40px;
+    margin-right: 10px;
+}
+
+.artist7 img{
+    height: 100px;
+    width: 100px;
+    border-radius: 100%;
+    margin-top: 40px;
+    margin-left: 15px;
+}
+
+.artist8 img{
+    height: 100px;
+    width: 100px;
+    border-radius: 100%;
+    margin-top:40px;
+    margin-left: 25px;
+}
+
+.artist9 img{
+    height: 100px;
+    width: 100px;
+    border-radius: 100%;
+    margin-top: 50px;
+}
+
+.artist10 img{
+    height: 100px;
+    width: 100px;
+    border-radius: 100%;
+    margin-top: 50px;
+}
+
+.artist11 img{
+    height: 100px;
+    width: 100px;
+    border-radius: 100%;
+    margin-top: 50px;
+}
+
+.artist12 img{
+    height: 100px;
+    width: 100px;
+    border-radius: 100%;
+    margin-top: 50px;
+}
+
+.artist1 p{
+    padding-left: 19px;
+}
+
+.artist2 p{
+    padding-left: 5px;
+}
+
+.artist3 p{
+    padding-left: 15px;
+}
+
+.artist4 p{
+    padding-left: 20px;
+}
+
+.artist5 p{
+    padding-left: 25px;
+}
+
+.artist6 p{
+    padding-left: 23px;
+}
+
+.artist7 p{
+    padding-left: 40px;
+}
+
+.artist8 p{
+    padding-left:45px;
+}
+
+.see-more p{
+    font-size: 0.95rem;
+    margin-left:150px;
+    margin-top: 60px;
+    color: white;
+}
+
+.see-more a{
+    text-decoration: none;
+}
+
+.see-more a:hover{
+    text-decoration: underline;
+    color: rgb(208, 208, 208);
+}
+
+a{
+    text-decoration: none;
+    color: white;
+}
+
+.right{
+    height: 900px;
+    width: 970px;
+    margin-left: 290px;
+    margin-top: -900px;
+    background-image: linear-gradient(rgb(39, 37, 37),grey);
+    border-radius: 20px;
+    overflow-y: scroll;
+}
+
+.artist-img{
+    margin-left: 30px;
+   padding-top: 30px;
+   display: flex;
+   color: white;
+  
+}
+
+.artist-img h1{
+    margin-left: 80px;
+    margin-top: 70px;
+}
+
+.artist-img p{
+    margin-left: -230px;
+    margin-top: 120px;
+    color: rgb(189, 189, 189);
+}
+
+.artist-img button{
+    height: 50px;
+    width: 150px;
+    border-radius: 50px;
+    border: none;
+    margin-left: -150px;
+    margin-top: 160px;
+    font-size: large;
+    transition: 0.3s all;
+}
+
+.artist-img button:hover{
+    transform: scale(1.15);
+}
+
+.artist-img img{
+    height: 250px;
+    width: 250px;
+    border-radius: 100%;
+}
+
+h2{
+    color: white;
+    padding-left: 30px;
+    padding-top: 50px;
+    font-size: 1.85rem;
+}
+
+
+.artist-img i{
+    margin-top: 80px;
+    margin-left: 10px;
+}
+
+
+
+
+
+
+.list{
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+    color: rgb(202, 198, 198);
+    margin-top: 25px;
+    font-size: 0.90rem;
+}
+
+.list-head2{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-right: 180px;
+    width:250px;
+    padding-left: 90px;
+}
+      
+.list-head1{
+    width: 100px;
+    margin-left: 30px;
+}
+
+.art{
+    margin-right: 155px;
+}
+
+.song-img{
+    height: 70px;
+    width: 70px;
+    border-radius: 12px;
+    margin-top: 20px;
+    background-image: url("tum\ hi\ ho.jpeg");
+    background-size: cover;
+    margin-bottom: 20px;
+    margin-left:  2cqmax;
+}
+
+.song-img1{
+    height: 70px;
+    width: 70px;
+    border-radius: 12px;
+    margin-top: 20px;
+    background-image: url("phir\ bhi.jpeg");
+    background-size: cover;
+    margin-bottom: 20px;
+    margin-left:  2cqmax;
+}
+
+.song-img2{
+    height: 70px;
+    width: 70px;
+    border-radius: 12px;
+    margin-top: 20px;
+    background-image: url("har\ kisi\ ko.jpeg");
+    background-size: cover;
+    margin-bottom: 20px;
+    margin-left:  2cqmax;
+}
+
+.song-img3{
+    height: 70px;
+    width: 70px;
+    border-radius: 12px;
+    margin-top: 20px;
+    background-image: url("raabta.jpeg");
+    background-size: cover;
+    margin-bottom: 20px;
+    margin-left:  2cqmax;
+}
+
+.song-img4{
+    height: 70px;
+    width: 70px;
+    border-radius: 12px;
+    margin-top: 20px;
+    background-image: url("kesariya.jpeg");
+    background-size: cover;
+    margin-bottom: 20px;
+    margin-left:  2cqmax;
+}
+
+.song-img5{
+    height: 70px;
+    width: 70px;
+    border-radius: 12px;
+    margin-top: 20px;
+    background-image: url("humdard.jpeg");
+    background-size: cover;
+    margin-bottom: 20px;
+    margin-left:  2cqmax;
+}
+
+.song-img6{
+    height: 70px;
+    width: 70px;
+    border-radius: 12px;
+    margin-top: 20px;
+    background-image: url("hum\ mar\ jayenge.jpeg");
+    background-size: cover;
+    margin-bottom: 20px;
+    margin-left:  2cqmax;
+}
+
+.song-img7{
+    height: 70px;
+    width: 70px;
+    border-radius: 12px;
+    margin-top: 20px;
+    background-image: url("likhe.jpg");
+    background-size: cover;
+    margin-bottom: 20px;
+    margin-left:  2cqmax;
+}
+
+.song-img8{
+    height: 70px;
+    width: 70px;
+    border-radius: 12px;
+    margin-top: 20px;
+    background-image: url("kuch toh.jpg");
+    background-size: cover;
+    margin-bottom: 20px;
+    margin-left:  2cqmax;
+}
+
+.song-img9{
+    height: 70px;
+    width: 70px;
+    border-radius: 12px;
+    margin-top: 20px;
+    background-image: url("aaj rapat.jpg");
+    background-size: cover;
+    margin-bottom: 20px;
+    margin-left:  1cqmax;
+}
+
+.song-name{
+    color: white;
+    margin-left: 20px;
+}
+
+.song-trend-list{
+    display: flex;
+    align-items: center;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+   
+}
+
+.artist-name{
+    color: white;
+    margin-left: 310px;
+}
+
+.duration{
+    color:white;
+    margin-left: 115px;
+}
+
+.song-name1{
+    color: white;
+    margin-left: 20px;
+}
+
+.artist-name1{
+    color: white;
+    margin-left: 195px;
+}
+
+.duration1{
+    color:white;
+    margin-left: 115px;
+}
+
+.song-name2{
+    color: white;
+    margin-left: 20px;
+}
+
+
+
+.artist-name2{
+    color: white;
+    margin-left: 275px;
+}
+
+.duration2{
+    color:white;
+    margin-left: 75px;
+}
+
+.song-name3{
+    color: white;
+    margin-left: 20px;
+}
+
+
+
+.artist-name3{
+    color: white;
+    margin-left: 330px;
+}
+
+.duration3{
+    color:white;
+    margin-left: 120px;
+}
+
+.song-name4{
+    color: white;
+    margin-left: 20px;
+}
+
+
+
+.artist-name4{
+    color: white;
+    margin-left: 310px;
+}
+
+.duration4{
+    color:white;
+    margin-left: 85px;
+}
+
+.song-name5{
+    color: white;
+    margin-left: 20px;
+}
+
+
+
+.artist-name5{
+    color: white;
+    margin-left: 310px;
+}
+
+.duration5{
+    color:white;
+    margin-left: 115px;
+}
+
+.song-name6{
+    color: white;
+    margin-left: 20px;
+}
+
+
+
+.artist-name6{
+    color: white;
+    margin-left: 240px;
+}
+
+.duration6{
+    color:white;
+    margin-left: 95px;
+}
+
+.song-name7{
+    color: white;
+    margin-left: 20px;
+}
+
+
+
+.artist-name7{
+    color: white;
+    margin-left: 200px;
+}
+
+.duration7{
+    color:white;
+    margin-left: 130px;
+}
+
+.song-name8{
+    color: white;
+    margin-left: 20px;
+}
+
+
+.artist-name8{
+    color: white;
+    margin-left: 260px;
+}
+
+.duration8{
+    color:white;
+    margin-left: 150px;
+}
+
+.song-name9{
+    color: white;
+    margin-left: 20px;
+}
+
+
+.artist-name9{
+    color: white;
+    margin-left: 200px;
+}
+
+.duration9{
+    color:white;
+    margin-left: 75px;
+}
+
+.song-trend-list{
+   transition: all 0.3s ease-in-out;
+}
+
+/* .song-trend-list:hover{
+    border: 1px solid white;
+    transform: scale(1.05);
+    box-shadow: #c6c3c3;
+} */
+
+.artist-name:hover{
+    text-decoration: underline;
+}
+
+.artist-name1:hover{
+    text-decoration: underline;
+}
+
+.artist-name2:hover{
+    text-decoration: underline;
+}
+
+.artist-name3:hover{
+    text-decoration: underline;
+}
+
+.artist-name4:hover{
+    text-decoration: underline;
+}
+
+.artist-name5:hover{
+    text-decoration: underline;
+}
+
+.artist-name6:hover{
+    text-decoration: underline;
+}
+
+.artist-name7:hover{
+    text-decoration: underline;
+}
+
+.artist-name8:hover{
+    text-decoration: underline;
+}
+
+.song-name:hover{
+    text-decoration: underline;
+}
+
+.song-name1:hover{
+    text-decoration: underline;
+}
+
+.song-name2:hover{
+    text-decoration: underline;
+}
+
+.song-name3:hover{
+    text-decoration: underline;
+}
+
+.song-name4:hover{
+    text-decoration: underline;
+}
+
+.song-name5:hover{
+    text-decoration: underline;
+}
+
+.song-name6:hover{
+    text-decoration: underline;
+}
+
+.song-name7:hover{
+    text-decoration: underline;
+}
+
+.song-name8:hover{
+    text-decoration: underline;
+}
+
+.song-name9:hover{
+    text-decoration: underline;
+}
+
+.play-hover a{
+    display: flex;
+    justify-content: center;
+    margin-top: 22px;
+    visibility: hidden;
+    /* margin-left: 6px; */
+}
+
+.song-trend-list:hover a{
+    visibility: visible;
+    
+}
+
+.song-trend-list:hover{
+    
+    background-color: rgb(37, 37, 37);
+}
+
+
+.add-playlist{
+    padding-left: 50px;
+}
+
+.add-playlist button{
+    border: none;
+    background-color: black;
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+}
+
+
+.add-playlist {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+  }
+  
+  .add-playlist .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: rgb(152, 152, 152);
+    color:white;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    top: 120%;
+    left: 80%;
+    margin-left: -60px;
+  }
+  
+  .add-playlist .tooltiptext::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent rgb(152, 152, 152) transparent;
+  }
+  
+  .add-playlist:hover .tooltiptext {
+    visibility: visible;
+  }
+
+  .playtrack-img img{
+    height: 60px;
+    width: 60px;
+    margin: 10px;
+    border-radius: 10px;
+    /* border: 1px solid white; */
+}
+
+.playtrack-img{
+    display: flex;
+}
+
+.playtrack-name{
+    margin-top: 25px;
+    color: white;
+}
+
+
+    .buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 600px;
+    margin-top: -90px;
+    }
+    
+    .playpause-track,
+    .prev-track,
+    .next-track {
+    padding: 15px;
+    opacity: 0.8;
+    
+    /* Smoothly transition the opacity */
+    transition: opacity .2s;
+    }
+    
+    /* Change the opacity when mouse is hovered */
+    .playpause-track:hover,
+    .prev-track:hover,
+    .next-track:hover {
+    opacity: 1.0;
+    }
+    
+    /* Define the slider width so that it scales properly */
+    .slider_container {
+    width: 75%;
+    max-width: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -20px;
+    margin-left: 470px;
+    }
+    
+    /* Modify the appearance of the slider */
+    .seek_slider, .volume_slider {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    height: 5px;
+    background:rgb(189, 13, 13);
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    
+    }
+    
+    /* Modify the appearance of the slider thumb */
+    .seek_slider::-webkit-slider-thumb,
+    .volume_slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    background: white;
+    cursor: pointer;
+    border-radius: 50%;
+    color: white;
+    }
+
+    .current-time{
+        color: white;
+    }
+
+    .total-duration{
+        color: white;
+    }
+    
+.play{
+    color: black;
+}
+
+
+
+
+    /* Change the opacity when mouse is hovered */
+    .seek_slider:hover,
+    .volume_slider:hover {
+    opacity: 1.0;
+    }
+    
+    .seek_slider {
+    width: 60%;
+    }
+    
+    .volume_slider {
+    width: 30%;
+    }
+    
+    .current-time,
+    .total-duration {
+    padding: 10px;
+    }
+    
+    i.fa-volume-down,
+    i.fa-volume-up {
+    padding: 10px;
+    }
+    
+    /* Change the mouse cursor to a pointer
+    when hovered over */
+    i.fa-play-circle,
+    i.fa-pause-circle,
+    i.fa-step-forward,
+    i.fa-step-backward {
+    cursor: pointer;
+    }
+    
+    
+    
+   
+
+    .song-bottom {
+    height: 90px;
+    background-color: rgb(27, 27, 27);
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+    z-index: 100;
+    box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.5); /* Add shadow for visibility */
+    transition: all 0.3s ease-in-out;
+    margin-top: 100px; /* Remove any margin */
+    padding: 0; /* Remove any padding */
+
+    }
+    
+
+    .scroll{
+        overflow-y: scroll;
+        height: 400px;
+}
+
+.scroll::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for WebKit browsers (Chrome, Safari) */
+}
+
+    
