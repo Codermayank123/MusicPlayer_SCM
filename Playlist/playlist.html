@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Playlist</title>
+    <link rel="stylesheet" href="playlist.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <header>
+        <div class="nav-bar">
+            <div class="dir">
+            <div class="Melodii" style="background-image: url('melodii.png');"></div>
+            <A href="Music.html"><div class="home"><i class="fa-solid fa-house fa-2xl" style="color: #ffffff;"></i></div></A>
+            <div class="search">
+            <div class="magnifying"><i class="fa-solid fa-magnifying-glass fa-xl" style="color: #dadada;"></i></div>
+            <input class="Placeholder" type="text" placeholder="What do you want to play?">
+            <div class="browse"><i class="fa-solid fa-window-maximize fa-2xl" style="color: #ffffff;"></i></div></div>
+        </div>
+          <div class="nav-bar2">
+            <a href="premium.html"><div class="explore">
+                <div class="box3"></div>
+                Explore premium
+            </div></a>
+            
+            <div class="install">
+                <i class="fa-sharp fa-regular fa-circle-down fa-xl" style="color: #ffffff;"></i>
+                <div class="app"><p>Install app</p></div></div>
+                    <div class="bell">
+            <i class="fa-regular fa-bell fa-xl" style="color: #ffffff;"></i>
+        </div>
+            <a href="Login.html"><div class="profile">
+                Log in
+            </div></a>
+            <a href="register.html">
+            <div class="sign-up">
+                Sign up
+            </div></a>
+        </div>
+          </div>
+        </div>
+        </header>
+    <h1>Your Playlist</h1>
+<div class="playlist-main-container">
+    <div class="playlist-container">
+        <!-- Playlist will be displayed here -->
+    </div>
+</div>
+    <!-- Player controls at the bottom -->
+    <div class="song-bottom">
+        <div class="playtrack-img">
+            <img id="current-song-image" src="russian.jpeg" alt="Current Song">
+            <p id="current-song-name" class="playtrack-name">Russian Bandana</p>
+        </div>
+        <div class="buttons">
+            <div class="prev-track" onclick="prevTrack()">
+                <i class="fa fa-step-backward fa-1x" style="color: #ffffff;"></i>
+            </div>
+            <div class="playpause-track" onclick="playpauseTrack()">
+                <i id="play-pause-icon" class="fa fa-play-circle fa-2x" style="color: #ffffff;"></i>
+            </div>
+            <div class="next-track" onclick="nextTrack()">
+                <i class="fa fa-step-forward fa-1x" style="color: #ffffff;"></i>
+            </div>
+        </div>
+
+        <!-- Seek slider and volume slider -->
+        <div class="slider_container">
+            <div class="current-time" id="current-time">00:00</div>
+            <input type="range" min="0" max="100" value="0" class="seek_slider" id="seek-slider" onchange="seekTo()">
+            <div class="total-duration" id="total-duration">00:00</div>
+        </div>
+
+        <div class="slider_container">
+            <i class="fa fa-volume-down" style="color: #ffffff;"></i>
+            <input type="range" min="0" max="100" value="99" class="volume_slider" id="volume-slider" onchange="setVolume()">
+            <i class="fa fa-volume-up" style="color: #ffffff;"></i>
+        </div>
+    </div>
+
+    <script>
+        let currentAudio = null;
+        let currentTrackIndex = 0;
+        let playlist = JSON.parse(localStorage.getItem('playlist')) || [];
+
+        // Function to display the playlist
+        function displayPlaylist() {
+            var playlistContainer = document.querySelector('.playlist-container');
+            playlistContainer.innerHTML = ""; // Clear the container before re-rendering
+            if (playlist.length === 0) {
+                playlistContainer.innerHTML = "<p>Your playlist is empty.</p>";
+            } else {
+                playlist.forEach(function(song, index) {
+                    var songDiv = document.createElement('div');
+                    songDiv.classList.add('song-item');
+                    songDiv.innerHTML = `
+                        <img src="${song.image}" alt="${song.name}" class="song-image">
+                        <p>${song.name}</p>
+                        <p>Duration: ${formatTime(song.duration)}</p
+                        <div class="button-arrange">
+                        <button class="play-button" onclick="playSongFromPlaylist(${index})">Play</button>
+                        <button class="trash" onclick="removeFromPlaylist(${index})">
+                            <i class="fa fa-trash" style="color: #ECDFCC;"></i> Delete
+                        </button></div>
+                    `;
+                    playlistContainer.appendChild(songDiv);
+                });
+            }
+        }
+
+        // Function to remove a song from the playlist
+        function removeFromPlaylist(index) {
+            playlist.splice(index, 1); // Remove song at the specified index
+            localStorage.setItem('playlist', JSON.stringify(playlist)); // Update localStorage
+            displayPlaylist(); // Re-render the playlist
+        }
+
+        // Format the song duration to MM:SS
+        function formatTime(seconds) {
+            var minutes = Math.floor(seconds / 60);
+            var remainingSeconds = Math.floor(seconds % 60);
+            return minutes.toString().padStart(2, '0') + ':' + remainingSeconds.toString().padStart(2, '0');
+        }
+
+        // Play song from the playlist
+        function playSongFromPlaylist(index) {
+            currentTrackIndex = index;
+            playCurrentTrack();
+        }
+
+        // Update and play the current track
+        function playCurrentTrack() {
+            var song = playlist[currentTrackIndex];
+            if (currentAudio) {
+                currentAudio.pause();  // Pause previous audio
+            }
+
+            currentAudio = new Audio(song.file);
+            currentAudio.play();
+            updateCurrentSongInfo(song);
+            updateTotalDuration(song.duration);
+
+            // Update play/pause icon
+            document.getElementById('play-pause-icon').classList.remove('fa-play-circle');
+            document.getElementById('play-pause-icon').classList.add('fa-pause-circle');
+            updateSeekBar();
+        }
+
+        // Update song details on the player
+        function updateCurrentSongInfo(song) {
+            document.getElementById('current-song-image').src = song.image;
+            document.getElementById('current-song-name').innerText = song.name;
+        }
+
+        // Update total duration of the song
+        function updateTotalDuration(duration) {
+            document.getElementById('total-duration').innerText = formatTime(duration);
+        }
+
+        // Play or pause the track
+        function playpauseTrack() {
+            if (currentAudio.paused) {
+                currentAudio.play();
+                document.getElementById('play-pause-icon').classList.remove('fa-play-circle');
+                document.getElementById('play-pause-icon').classList.add('fa-pause-circle');
+            } else {
+                currentAudio.pause();
+                document.getElementById('play-pause-icon').classList.remove('fa-pause-circle');
+                document.getElementById('play-pause-icon').classList.add('fa-play-circle');
+            }
+        }
+
+        // Go to previous track
+        function prevTrack() {
+            currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+            playCurrentTrack();
+        }
+
+        // Go to next track
+        function nextTrack() {
+            currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
+            playCurrentTrack();
+        }
+
+        // Update the seek bar
+        function updateSeekBar() {
+            const seekSlider = document.getElementById('seek-slider');
+            const currentTime = document.getElementById('current-time');
+            setInterval(function() {
+                if (currentAudio && !currentAudio.paused) {
+                    const currentTimeVal = currentAudio.currentTime;
+                    const duration = currentAudio.duration;
+                    seekSlider.value = (currentTimeVal / duration) * 100;
+                    currentTime.innerText = formatTime(currentTimeVal);
+                }
+            }, 1000);
+        }
+
+        // Seek to a specific point in the song
+        function seekTo() {
+            if (currentAudio) {
+                const seekSlider = document.getElementById('seek-slider');
+                const seekTime = (seekSlider.value / 100) * currentAudio.duration;
+                currentAudio.currentTime = seekTime;
+            }
+        }
+
+        // Set the volume
+        function setVolume() {
+            if (currentAudio) {
+                const volumeSlider = document.getElementById('volume-slider');
+                currentAudio.volume = volumeSlider.value / 100;
+            }
+        }
+
+        // Display the playlist when the page loads
+        displayPlaylist();
+    </script>
+</body>
+</html>

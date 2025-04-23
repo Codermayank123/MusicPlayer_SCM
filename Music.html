@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="Music css.css">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Poppins&amp;display=swap'>
+    <script>
+
+var currentMusic = null;
+var musicIndex = 0; 
+var playlist = [
+    { name: "Nature", file: 'Nature.mp3', image: 'NATURE.jpeg' },
+    { name: "Farmaish", file: 'Farmaish .mp3', image: 'farmaish.jpeg' },
+    { name: "Rubricorn Drill", file: 'Rubicon_Drill.mp3', image: 'drill.jpeg' },
+    { name: "No Reason", file: 'no reason.mp3', image: 'reason.jpeg' },
+    { name: 'Haryana Hood', file: 'haryana hood.mp3', image: 'haryana.jpeg' },
+    { name: 'Aaam Jahe', file: 'Aaam Jahe.mp3', image: 'Aam munde.jpeg' },
+    { name: 'Sarkar', file: 'sarkarmusic.mp3', image: 'Sarkar.jpeg' },
+    { name: 'On the way', file: 'One The Way.mp3', image: 'on the way.jpeg' },
+    { name: 'Yalgaar', file: 'Yalgaar.mp3', image: 'yalgar.jpeg' },
+    { name: 'No Mercy', file: 'no mercy.mp3', image: 'No mercy.jpeg' },
+    { name: 'Check it out', file: 'Check It Out .mp3', image: 'check.jpeg' },
+    { name: '295', file: '295 music.mp3', image: '295.jpeg' },
+];
+
+function playMusic(index) {
+    if (currentMusic !== null) {
+        currentMusic.pause();
+    }
+
+    currentMusic = new Audio(playlist[index].file); // Create a new audio object
+    currentMusic.play(); // Play the audio
+
+    updateSongInfo(index); // Update song info (name, image)
+    musicIndex = index; // Update current song index
+    updatePlayPauseButton(true); // Change play/pause button to "Pause"
+
+    // Update duration and current time every second
+    currentMusic.addEventListener('timeupdate', updateProgressBar);
+    currentMusic.addEventListener('loadedmetadata', updateDuration);
+}
+
+// Update song info (image and name)
+function updateSongInfo(index) {
+    document.querySelector('.playtrack-img img').src = playlist[index].image;
+    document.querySelector('.playtrack-name').textContent = playlist[index].name;
+}
+
+// Toggle play/pause
+function playpauseTrack() {
+    if (currentMusic.paused) {
+        currentMusic.play();
+        updatePlayPauseButton(true);
+    } else {
+        currentMusic.pause();
+        updatePlayPauseButton(false);
+    }
+}
+
+// Update play/pause button
+function updatePlayPauseButton(isPlaying) {
+    const playPauseIcon = document.querySelector('.playpause-track i');
+    if (isPlaying) {
+        playPauseIcon.classList.remove('fa-play-circle');
+        playPauseIcon.classList.add('fa-pause-circle');
+    } else {
+        playPauseIcon.classList.remove('fa-pause-circle');
+        playPauseIcon.classList.add('fa-play-circle');
+    }
+}
+
+// Play next track
+function nextTrack() {
+    musicIndex = (musicIndex + 1) % playlist.length;
+    playMusic(musicIndex);
+}
+
+// Play previous track
+function prevTrack() {
+    musicIndex = (musicIndex - 1 + playlist.length) % playlist.length;
+    playMusic(musicIndex);
+}
+
+// Seek to a specific time in the song
+function seekTo() {
+    var seekSlider = document.querySelector('.seek_slider');
+    var currentTime = currentMusic.duration * (seekSlider.value / 100);
+    currentMusic.currentTime = currentTime;
+}
+
+// Set volume
+function setVolume() {
+    var volumeSlider = document.querySelector('.volume_slider');
+    currentMusic.volume = volumeSlider.value / 100;
+}
+
+// Update progress bar and current time
+function updateProgressBar() {
+    var progress = (currentMusic.currentTime / currentMusic.duration) * 100;
+    var seekSlider = document.querySelector('.seek_slider');
+    seekSlider.value = progress;
+
+    var currentTimeElement = document.querySelector('.current-time');
+    var duration = formatTime(currentMusic.currentTime);
+    currentTimeElement.textContent = duration;
+
+    var totalDurationElement = document.querySelector('.total-duration');
+    var totalDuration = formatTime(currentMusic.duration);
+    totalDurationElement.textContent = totalDuration;
+}
+
+// Format time (MM:SS)
+function formatTime(seconds) {
+    var minutes = Math.floor(seconds / 60);
+    var remainingSeconds = Math.floor(seconds % 60);
+    return minutes.toString().padStart(2, '0') + ':' + remainingSeconds.toString().padStart(2, '0');
+}
+
+// Update duration once metadata is loaded
+function updateDuration() {
+    var totalDurationElement = document.querySelector('.total-duration');
+    var totalDuration = formatTime(currentMusic.duration);
+    totalDurationElement.textContent = totalDuration;
+}
+
+
+    </script>
+    
+
+</head>
+<body>
+    <header>
+<div class="nav-bar">
+    <div class="dir">
+    <div class="Melodii" style="background-image: url('melodii.png');"></div>
+    <div class="home"><i class="fa-solid fa-house fa-2xl" style="color: #ffffff;"></i></div>
+    <div class="search">
+    <div class="magnifying"><i class="fa-solid fa-magnifying-glass fa-xl" style="color: #dadada;"></i></div>
+    <input class="Placeholder" type="text" placeholder="What do you want to play?">
+    <div class="browse"><i class="fa-solid fa-window-maximize fa-2xl" style="color: #ffffff;"></i></div></div>
+</div>
+  <div class="nav-bar2">
+    <a href="premium.html"><div class="explore">
+        <div class="box3"></div>
+        Explore premium
+    </div></a>
+    
+    <div class="install">
+        <i class="fa-sharp fa-regular fa-circle-down fa-xl" style="color: #ffffff;"></i>
+        <div class="app"><p>Install app</p></div></div>
+            <div class="bell">
+    <i class="fa-regular fa-bell fa-xl" style="color: #ffffff;"></i>
+</div>
+    <a href="Login.html"><div class="profile">
+        Log in
+    </div></a>
+    <a href="register.html">
+    <div class="sign-up">
+        Sign up
+    </div></a>
+</div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="content">
+    <div class="box-left">
+        <div class="library">
+        <h3>Library</h3>
+        <i class="fa-solid fa-thin fa-plus fa-xl" style="color: #c8c9cb;"></i>
+        </div>
+        <div class="button">
+            <a href="playlist.html"><div class="play">Playlist</div></a>
+            <a href="artist.html"><div class="art">Artists</div></a>
+        </div>
+        <div class="search-icon">
+            <div class="recent"><p>Recents <i class="fa-solid fa-list-ul fa-xl" style="color: #ccd0d7;"></i></p></div>
+            <div class="icon"><i class="fa-solid fa-magnifying-glass fa-xl" style="color: #dadada;"></i></div>
+
+        </div>
+            <div class="song-section">
+                <div class="song-flex">
+                <div class="song1 song" style="background-image: url('Aam munde.jpeg');"></div>
+                    <div class="song-name"><p>Aam jahe munde</p></div>
+                    <div class="play-hover"><a href="#" onclick="playMusic(5)"><img src="icons.png"></a></div>
+                </div><div class="song-flex">
+                <div class="song2 song" style="background-image: url('No mercy.jpeg');"></div>
+                    <div class="song-name"><p>No Mercy</p></div>
+                    <div class="play-hover"><a href="#" onclick="playMusic(9)"><img src="icons.png"></a></div></div>
+                    <div class="song-flex">
+                <div class="song3 song" style="background-image: url('295.jpeg');"></div>
+                    <div class="song-name"><p>295</p></div>
+                    <div class="play-hover"><a href="#" onclick="playMusic(11)"><img src="icons.png"></a></div></div>
+                    <div class="song-flex">
+                <div class="song4 song" style="background-image: url('drill.jpeg');"></div>
+                    <div class="song-name"><p>Rubicorn Drill</p></div>
+                    <div class="play-hover"><a href="#" onclick="playMusic(2)"><img src="icons.png"></a></div>
+                </div>
+            </div>
+        
+    </div>
+    
+    <div class="box-right">
+<div class="song-section2">
+    <div class="song-sec2-header">
+        <div class="all">All</div>
+        <a href="musictype.html"><div class="music">Music</div></a> 
+        <div class="podcast">Podcasts</div>
+    </div>
+    <div class="first-two">
+        <div class="edit">
+    <div class="song5 ganna" style="background-image: url('NATURE.jpeg');"></div>
+    <div class="ganna-name"><p>Nature</p>
+    </div>
+    <div class="play-hover"><a href="#" onclick="playMusic(0)"><img src="icons.png" ></a></div>
+    
+</div>
+    
+      
+    <div class="edit">
+    <div class="song6 ganna" style="background-image: url('farmaish.jpeg');"></div>
+    <div class="ganna-name"><p>Farmaish</p></div>
+    <div class="play-hover"><a href="#" onclick="playMusic(1)"><img src="icons.png"></a></div></div>
+    <div class="edit">
+        <div class="song6 ganna" style="background-image: url('drill.jpeg');"></div>
+        <div class="ganna-name"><p>Rubicorn Drill</p></div>
+        <div class="play-hover"><a href="#" onclick="playMusic(2)"><img src="icons.png"></a></div></div>
+</div>
+<div class="second-two">
+    <div class="edit">
+    <div class="song7 ganna" style="background-image: url('reason.jpeg');"></div>
+    <div class="ganna-name"><p>No Reason</p></div>
+    <div class="play-hover"><a href="#" onclick="playMusic(3)"><img src="icons.png"></a></div></div>
+    <div class="edit">
+    <div class="song8 ganna" style="background-image: url('haryana.jpeg');"></div>
+    <div class="ganna-name"><p>Haryana Hood</p></div>
+    <div class="play-hover"><a href="#" onclick="playMusic(4)"><img src="icons.png" onclick="playMusic1()"></a></div></div>
+    <div class="edit">
+        <div class="song8 ganna" style="background-image: url('Aam munde.jpeg');"></div>
+        <div class="ganna-name"><p>Aam Jahe munde</p></div>
+        <div class="play-hover"><a href="#" onclick="playMusic(5)"><img src="icons.png" onclick="playMusic2()"></a></div></div>
+
+</div>
+<div class="third-two">
+    <div class="edit">
+    <div class="song9 ganna" style="background-image: url('sarkar.jpeg');"></div>
+    <div class="ganna-name"><p>Sarkar</p></div>
+    <div class="play-hover"><a href="#" onclick="playMusic(6)"><img src="icons.png"></a></div></div>
+    <div class="edit">
+    <div class="song10 ganna" style="background-image: url('on the way.jpeg');"></div>
+    <div class="ganna-name"><p>On The Way</p></div>
+    <div class="play-hover"><a href="#" onclick="playMusic(7)"><img src="icons.png"></a></div></div>
+    <div class="edit">
+        
+            <div class="song8 ganna" style="background-image: url('yalgar.jpeg');"></div>
+            <div class="ganna-name"><p>Yalgaar</p></div>
+            <div class="play-hover"><a href="#" onclick="playMusic(8)"><img src="icons.png"></a></div></div>
+        
+    </div>
+
+    <div class="fifth-two">
+        <div class="edit">
+        <div class="song9 ganna" style="background-image: url('No mercy.jpeg');"></div>
+        <div class="ganna-name"><p>No mercy</p></div>
+        <div class="play-hover"><a href="#" onclick="playMusic(9)"><img src="icons.png" onclick="playMusic()"></a></div></div>
+        <div class="edit">
+        <div class="song10 ganna" style="background-image: url('check.jpeg');"></div>
+        <div class="ganna-name"><p>Check it out</p></div>
+        <div class="play-hover"><a href="#" onclick="playMusic(10)"><img src="icons.png"></a></div></div>
+        
+            <div class="edit">
+                <div class="song8 ganna" style="background-image: url('295.jpeg');"></div>
+                <div class="ganna-name"><p>295</p></div>
+                <div class="play-hover"><a href="#" onclick="playMusic(11)"><img src="icons.png"></a></div></div>
+            
+        </div>
+</div>
+
+<div class="song-section3">
+    <h1 id="sec3">Recently Played</h1>
+    <div class="recent-main">
+    <a href="#" onclick="playMusic(4)"><div class="recent1 " style="background-image: url('haryana.jpeg');"><h3 class="recent-sub">HARYANA HOOD</h3></div></a>
+    <a href="#" onclick="playMusic(7)"><div class="recent1 " style="background-image: url('on the way.jpeg');"><h3 class="recent-sub">ON THE WAY</h3></div></a>
+    <a href="#" onclick="playMusic(0)"><div class="recent1 " style="background-image: url('NATURE.jpeg');"><h3 class="recent-sub">NATURE</h3></div></a>
+    <a href="#" onclick="playMusic(3)"><div class="recent1  " style="background-image: url('reason.jpeg');"><h3 class="recent-sub">NO REASON</h3></div></a>
+</div>
+
+</div>
+<div class="song-section4">
+    <h1 id="sec4">Your favorite artists</h1><a href="artist.html"><h3 id="sub-sec4">Show all</h3></a>
+    <div class="recent-main2">
+    <div class="recent2" style="background-image: url('arjit.jpeg');"><h3 class="recent-sub">ARJIT SINGH</h3></div>
+    <div class="recent2" style="background-image: url('atif.jpeg');"><h3 class="recent-sub">ATIF ASLAM</h3></div>
+    <div class="recent2" style="background-image: url('sidhu.jpeg');"><h3 class="recent-sub">SIDHU MOOSEWALA</h3></div>
+    <div class="recent2" style="background-image: url('parmish.jpeg');"><h3 class="recent-sub">Parmish verma</h3></div>
+</div>
+</div>
+
+
+<div class="song-section5">
+    <h1 id="sec4">Jump Back in</h1>
+    <div class="recent-main2">
+    <a href="#" onclick="playMusic(0)"><div class="recent3" style="background-image: url('NATURE.jpeg');"><h3 class="recent-sub">NATURE</h3></div></a>
+    <a href="#" onclick="playMusic(6)"><div class="recent3" style="background-image: url('sarkar.jpeg');"><h3 class="recent-sub">SARKAR</h3></div></a>
+    <a href="#" onclick="playMusic(10)"><div class="recent3" style="background-image: url('check.jpeg');"><h3 class="recent-sub">CHECK IT OUT</h3></div></a>
+    <a href="#" onclick="playMusic(8)"><div class="recent3" style="background-image: url('yalgar.jpeg');"><h3 class="recent-sub">YALGAR</h3></div></a>
+</div>
+</div>
+
+
+
+
+
+
+<footer>
+    <div class="copyright">
+<div class="comp">
+    <ul>
+        <p>Company</p>
+        <li><a>About</a></li>
+        <li><a>Jobs</a></li>
+        <li><a>For the Record</a></li>
+    </ul>
+</div>
+
+<div class="comp">
+    <ul>
+
+        <p>Communities</p>
+        <li><a>Careers</a></li>
+        <li><a>Blog</a></li>
+        <li><a>About Amazon</a></li>
+        <li><a>Investor Relations</a></li>
+        <li><a>Amazon Devices</a></li>
+        <li><a>Amazon Science</a></li>
+    </ul></div>
+
+    <div class="comp">
+    <ul>
+        <p>Spotify Plans</p>
+        <li><a>Careers</a></li>
+        <li><a>Blog</a></li>
+        <li><a>About Amazon</a></li>
+        <li><a>Investor Relations</a></li>
+        <li><a>Amazon Devices</a></li>
+        <li><a>Amazon Science</a></li>
+    </ul>
+</div>
+    
+</div>
+    
+</footer>
+
+
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="song-bottom">
+    <div class="playtrack-img"><img src="NATURE.jpeg"><p class="playtrack-name">Nature</p></div>
+    <div class="buttons">
+
+        <div class="prev-track" onclick="prevTrack()">
+            <i class="fa fa-step-backward fa-1x" style="color: #ffffff;"></i>
+        </div>
+        <div class="playpause-track" onclick="playpauseTrack()">
+            <i class="fa fa-play-circle fa-2x" style="color: #ffffff;"></i>
+        </div>
+        <div class="next-track" onclick="nextTrack()">
+            <i class="fa fa-step-forward fa-1x" style="color: #ffffff;"></i>
+        </div>
+        </div>
+    
+        <!-- Define the section for displaying the seek slider-->
+        <div class="slider_container">
+        <div class="current-time">00:00</div>
+        <input type="range" min="1" max="100"
+            value="0" class="seek_slider" onchange="seekTo()">
+        <div class="total-duration">00:00</div>
+        </div>
+    
+        <!-- Define the section for displaying the volume slider-->
+        <div class="slider_container">
+        <i class="fa fa-volume-down" style="color: #ffffff;"></i>
+        <input type="range" min="1" max="100"
+            value="99" class="volume_slider" onchange="setVolume()">
+        <i class="fa fa-volume-up" style="color: #ffffff;"></i>
+        </div>
+    </div>
+    
+</div>
+
+</body>
+</html>
+
+
+
+
+
+
